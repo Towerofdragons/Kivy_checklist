@@ -1,0 +1,190 @@
+#:kivy 2.1.0
+<Add_Item>:
+    id: add_space
+    orientation: 'vertical'
+    size_hint: 1. , 1.
+    
+    TextInput:
+        id: add_text
+        text: "Enter here!"
+        multiline: False
+
+    GridLayout:
+        cols: 2
+
+        Button:
+            text: 'Add'
+            on_press: app.root.add_item(1,root.children[1].text)
+            
+        Button:
+            text: 'Cancel'
+            on_press: app.root.cancel_addition()
+        
+
+<Item>:
+    id: item_bar
+    
+    rows:1
+    columns:2
+    size: 280, 40
+    size_hint: None, None
+
+    Label:
+        id: ItemLabel
+        canvas.before:
+            Color:
+                rgba: (1,1,1,0) #debug
+            Rectangle:
+                size:self.size
+                pos:self.pos
+                
+        text_size: self.size
+                    
+        color: 1,1,1,1
+        halign:'left'
+        valign:'middle'
+        text:'Keys'
+
+    Switch:
+        id: ItemSwitch
+                    
+        size_hint: .2, .2
+
+
+
+<AppBoxLayout>: #contains every item on the page
+    orientation:'vertical'
+
+    canvas.before:
+        Color:
+            rgba: (.2,.2,.2,1)
+        Rectangle:
+            size:self.size
+            pos:self.pos
+
+
+
+
+    
+    BoxLayout: #container for banner
+
+        orientation:'vertical'
+        
+        size_hint: 1., .3 
+        
+        padding:20
+
+        canvas.before:
+            Color:
+                rgba: (1,1,1,1)
+            Rectangle:
+                size:self.size
+                pos:self.pos
+        
+            
+        Label:
+            canvas.before:
+                Color:
+                    rgba: (.5,0,0,0) #debug
+                Rectangle:
+                    size:self.size
+                    pos:self.pos
+
+            text:'CHECKLIST'
+            font_size:'35sp'
+            
+            color: 0,0,0,1
+            pos_hint:{'x': -.2, 'y': 0}
+
+
+        Label:
+            text: 'Leaving the house?'
+            color: 0,.5,0,1
+            font_size:'25sp'
+            pos_hint:{'x': .15, 'y': 0}
+         
+
+    Label:
+        text:'Do you have your:'
+        text_size: self.size
+        size_hint: 1., .1
+
+        halign:'left'
+        valign:'center'
+        font_size: '20sp'
+
+    BoxLayout: #Container for adding text field
+        id: add_container
+        orientation:'vertical'
+        size_hint_y: None #effectively hides container to prevent taking space when empty
+        height: '0dp'
+        
+    
+
+
+    BoxLayout: #Container for items
+        orientation:'vertical'
+        padding:20
+               
+
+        ScrollView: #Container for items
+            
+            do_scroll_x: False
+            do_scroll_y: True
+            size: self.size
+            opacity: .9
+            
+
+            GridLayout:  #holds the items
+                id: item_container
+                cols:1
+                size_hint:1., None 
+                height:self.minimum_height
+        
+        
+        BoxLayout:#container for Modify and Reset button
+            size_hint:1., None
+            height: 35
+            orientation:'horizontal'
+
+            Label:
+               
+                markup: True
+                canvas.before:
+                    Color:
+                        rgba: (1,1,1,.5) #debug
+                    Rectangle:
+                        size:self.size
+                        pos:self.pos
+                text:'[ref= add] Add [/ref]'
+                on_ref_press: root.add_item(0,'')
+                
+            
+                
+
+            Label:
+                markup: True
+                canvas.before:
+                    Color:
+                        rgba: (1,1,1,.5) #debug
+                    Rectangle:
+                        size:self.size
+                        pos:self.pos
+
+                text:'[ref= remove] Remove [/ref]'
+                on_ref_press: root.remove_item()
+
+                
+
+            #Label:
+
+             #   markup: True
+              #  canvas.before:
+               #     Color:
+                #        rgba: (1,1,1,.5) #debug
+                 #   Rectangle:
+                  #      size:self.size
+                   #     pos:self.pos
+                
+                #text:'[ref= reset] Reset [/ref]'
+                #on_ref_press: print("AAHHHH reset")
